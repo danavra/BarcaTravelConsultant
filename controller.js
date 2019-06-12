@@ -22,7 +22,7 @@ app.config(['$routeProvider', function ($routeProvider){
         })
         .when("/register", {
             templateUrl: "contents/register.html",
-            controller: "registersController",
+            controller: "registerController",
             controllerAs:"controller"
         })
     .otherwise({
@@ -40,7 +40,7 @@ app.controller("controller", function($scope, $http, $window){
             $scope.random_pois = response.data;
         },
         function (response){
-            console.log("shit")
+            console.log(response)
         }
     )
 });
