@@ -31,7 +31,17 @@ app.config(['$routeProvider', function ($routeProvider){
 }]);
 
 app.controller("controller", function($scope, $http, $window){
-    $scope.logged_in = false;
+    if(localStorage.getItem("token")){
+        // alert("has token")
+        $scope.logged_in = true;
+        let usertest = JSON.parse(localStorage.getItem("token")).username;
+        console.log("11111")
+
+    }
+    else{
+        $scope.logged_in = false;
+        console.log("222222")
+    }
     $http({
         method: "GET",
         url:"http://localhost:3000/poi/getrandomPOI/3"
@@ -41,6 +51,7 @@ app.controller("controller", function($scope, $http, $window){
         },
         function (response){
             console.log(response)
+            $scope.random_pois = [{"POIName": "Couldnt connect to server", "imgUrl": "https://safetymanagementgroup.com/wp-content/uploads/2017/07/Oopsbutton.jpg"}];
         }
     )
 });
