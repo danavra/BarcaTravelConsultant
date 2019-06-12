@@ -31,5 +31,16 @@ app.config(['$routeProvider', function ($routeProvider){
 }]);
 
 app.controller("controller", function($scope, $http, $window){
-    $scope.user_name = "guest";
+    $scope.logged_in = false;
+    $http({
+        method: "GET",
+        url:"http://localhost:3000/poi/getrandomPOI/3"
+    }).then(
+        function (response){
+            $scope.random_pois = response.data;
+        },
+        function (response){
+            console.log("shit")
+        }
+    )
 });
