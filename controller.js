@@ -1,5 +1,5 @@
-var main = angular.module("main", ["ngRoute"]);
-main.config(['$routeProvider', function ($routeProvider){
+var app = angular.module("myapp", ["ngRoute"]);
+app.config(['$routeProvider', function ($routeProvider){
     $routeProvider.when("/", {
         templateUrl: "contents/home.html",
         controller: "controller",
@@ -7,29 +7,29 @@ main.config(['$routeProvider', function ($routeProvider){
     })
         .when("/profile", {
         templateUrl: "contents/profile.html",
-        controller: "controllers/profileController",
+        controller: "profileController",
         controllerAs:"controller"
     })
         .when("/login", {
             templateUrl: "contents/login.html",
-            controller: "controllers/loginController",
+            controller: "loginController",
             controllerAs:"controller"
         })
         .when("/pois", {
             templateUrl: "contents/pois.html",
-            controller: "controllers/poisController",
+            controller: "poisController",
             controllerAs:"controller"
         })
         .when("/register", {
             templateUrl: "contents/register.html",
-            controller: "controllers/registersController",
+            controller: "registersController",
             controllerAs:"controller"
         })
     .otherwise({
         redirectTo: '/'
     });
 }]);
-main.controller("controller", ($scope, $http, $window) =>{
+app.controller("controller", ($scope, $http, $window) =>{
     $scope.logged_in = false;
     $scope.user_name = 'guest'
     $http({
