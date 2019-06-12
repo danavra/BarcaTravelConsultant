@@ -18,13 +18,15 @@ app.controller("registerController", function($scope, $http, $window){
         for(let i=0; i<$scope.register_categories.length; i++){
             new_user.categories.push($scope.register_categories[i]);
         }
-        $http.post("http://localhost:3000/users/addUser", new_user).then(function(response){
-            localStorage.setItem("token", response.data);
-            $window.location.href = "/index.html";
+        $http.post("http://localhost:3000/users/addUser", new_user).then(
+            function(response){
+                localStorage.setItem("token", response.data);
+                $scope.logged_user = new_user;
+                $window.location.href = "/index.html";
         }, function(response){
-            console.log(response);
-            alert("coudn't register");
-            $window.location.href = "index.html";
+                console.log(response);
+                alert("coudn't register");
+                $window.location.href = "index.html";
         }
         );
     }
