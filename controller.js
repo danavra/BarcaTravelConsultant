@@ -5,6 +5,26 @@ main.config(['$routeProvider', function ($routeProvider){
         controller: "controller",
         controllerAs:"controller"
     })
+        .when("/profile", {
+        templateUrl: "contents/profile.html",
+        controller: "controllers/profileController",
+        controllerAs:"controller"
+    })
+        .when("/login", {
+            templateUrl: "contents/login.html",
+            controller: "controllers/loginController",
+            controllerAs:"controller"
+        })
+        .when("/pois", {
+            templateUrl: "contents/pois.html",
+            controller: "controllers/poisController",
+            controllerAs:"controller"
+        })
+        .when("/register", {
+            templateUrl: "contents/register.html",
+            controller: "controllers/registersController",
+            controllerAs:"controller"
+        })
     .otherwise({
         redirectTo: '/'
     });
