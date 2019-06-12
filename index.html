@@ -18,18 +18,18 @@
         <div class="navbar-nav">
           <a class="navbar-brand" href="#"><img src="https://cdn0.iconfinder.com/data/icons/user-interface-vol-5-4/66/2-512.png"
             width="30" height="30" alt="Home"></a>
-          <a class="nav-item nav-link" href="#!/login">Login</a>
-          <a class="nav-item nav-link" href="#!/register">Register</a>
-          <a class="nav-item nav-link" href="#!/profile">Profile</a>
-          <a class="nav-item nav-link" href="#!/pois">Points of Interest</a>
+          <a class="nav-item nav-link" href="#!/login" ng-hide="logged_in">Login</a>
+          <a class="nav-item nav-link" href="#!/register" ng-hide="logged_in">Register</a>
+          <a class="nav-item nav-link" href="#!/profile" ng-show="logged_in">Profile</a>
+          <a class="nav-item nav-link" href="#!/pois" ng-show="logged_in">Points of Interest</a>
           <a class="nav-item nav-link" href="">About</a>
         </div>
       </nav>
-      <div class="container-fluid mx-auto" ng-view>
+      <div class="container-fluid mx-auto p-0" ng-view>
       </div>
-      <div ng-init="myVar = 'https://s4.reutersmedia.net/resources/r/?m=02&d=20190611&t=2&i=1396656324&w=780&fh=&fw=&ll=&pl=&sq=&r=2019-06-11T110510Z_33659_MRPRC1D78B42D90_RTRMADP_0_PAKISTAN-WEATHER' ">
-        <img ng-src="{{myVar}}" alt="">
-      </div>
+      <!-- <div ng-init="myVar = 'https://s4.reutersmedia.net/resources/r/?m=02&d=20190611&t=2&i=1396656324&w=780&fh=&fw=&ll=&pl=&sq=&r=2019-06-11T110510Z_33659_MRPRC1D78B42D90_RTRMADP_0_PAKISTAN-WEATHER' "> -->
+        <!-- <img ng-src="{{myVar}}" alt=""> -->
+      <!-- </div> -->
       
 
       <!-- scripts -->
@@ -37,4 +37,3 @@
       <script src="controllers/loginController.js"></script>
   </body>
 </html>
-<!-- this is a test -->
