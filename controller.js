@@ -32,6 +32,10 @@ app.config(['$routeProvider', function ($routeProvider){
 
 app.controller("controller", function($scope, $http, $window){
     $scope.logOut = function(){
+        window.getSelection();
+        if(!window.confirm("are you sure you want to logout?")){
+            return;
+        }
         localStorage.clear();
         $scope.logged_in = false;
         $window.location.href = "index.html"
