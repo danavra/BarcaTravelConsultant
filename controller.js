@@ -31,6 +31,14 @@ app.config(['$routeProvider', function ($routeProvider){
 }]);
 
 app.controller("controller", function($scope, $http, $window){
+    $scope.logOut = function(){
+        localStorage.clear();
+        $scope.logged_in = false;
+        $window.location.href = "index.html"
+
+        alert("you have loged out!");
+    }
+
     if(localStorage.getItem("token")){
         // alert("has token")
         $scope.logged_in = true;
@@ -55,3 +63,6 @@ app.controller("controller", function($scope, $http, $window){
         }
     )
 });
+function logOut(){
+    localStorage.clear();
+}
