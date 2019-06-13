@@ -31,6 +31,8 @@ app.config(['$routeProvider', function ($routeProvider){
 }]);
 
 app.controller("controller", function($scope, $http, $window){
+    
+    //logout
     $scope.logOut = function(){
         window.getSelection();
         if(!window.confirm("are you sure you want to logout?")){
@@ -43,27 +45,41 @@ app.controller("controller", function($scope, $http, $window){
         alert("you have loged out!");
     }
 
+    //search
     $scope.search = async function(){
 
-        
+        // to do
 
         alert($scope.query);
     }
- 
 
+    //getpoiinfo
+    $scope.getPoiInfo = function($event){
+        console.log($event.currentTarget.id);
+        localStorage.setItem("currentPoi", $event.currentTarget.id);
+        $window.location.href = "#!/pois"
+
+    }
+    //get randompois
+        $http({
+        method: "GET",
+        url:"http://localhost:3000/poi/getrandomPOI/0"
+    }).then(
+        function (response){
+            $scope.random_pois = response.data;
+        },
+        function (response){
+            console.log(response)
+            $scope.random_pois = [{"POIName": "Couldnt connect to server", "imgUrl": "https://safetymanagementgroup.com/wp-content/uploads/2017/07/Oopsbutton.jpg"}];
+            
+        }
+    )
+ 
+    //get pois by user categories    
     if(localStorage.getItem("token")){
-        
-        // console.log("<"   +JSON.parse(localStorage.getItem("token")).token+"   >")
         $scope.logged_in = true;
-        var t = JSON.parse(localStorage.getItem("token")).token;
-        console.log("test:\nlength="+t.length);
-        console.log(t);
-        var req1 = {
-             method: "GET",
-             url: "http://localhost:3000/private/users/get2popularpoi",
-             headers: { "x-auth-token": t }
-          }
-          console.log("wwwtttffff"+ req1.headers['x-auth-token']);
+        var t = JSON.parse(localStorage.getItem("token")).token;  
+        
         $http({
             method: "GET",
             url: "http://localhost:3000/private/users/get2popularpoi",
@@ -75,27 +91,16 @@ app.controller("controller", function($scope, $http, $window){
             function myError(response) {
               // $scope.twoPopularPOIS = response.statusText;
               console.log("responce = "+ response);
-              alert("sorry failed to get the 2poisfrom category= "+response.data)
+              console.log("sorry failed to get the 2poisfrom category= "+response.data)
             }
           );
-
-
     }
     else{
         $scope.logged_in = false;
     }
-    $http({
-        method: "GET",
-        url:"http://localhost:3000/poi/getrandomPOI/0"
-    }).then(
-        function (response){
-            $scope.random_pois = response.data;
-        },
-        function (response){
-            console.log(response)
-            $scope.random_pois = [{"POIName": "Couldnt connect to server", "imgUrl": "https://safetymanagementgroup.com/wp-content/uploads/2017/07/Oopsbutton.jpg"}];
-        }
-    )
+
+    
+
 });
 function logOut(){
     localStorage.clear();
