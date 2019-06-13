@@ -19,7 +19,7 @@ app.controller("loginController", function ($scope, $http, $window) {
                     if(response.data){
                         console.log(response.data);
                         $scope.token  = JSON.stringify({
-                            token: response.data["token"],
+                            "token": response.data,
                             username: $scope.login_username
                         });
                         localStorage.setItem("token", $scope.token);

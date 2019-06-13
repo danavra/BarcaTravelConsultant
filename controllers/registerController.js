@@ -20,7 +20,11 @@ app.controller("registerController", function($scope, $http, $window){
         }
         $http.post("http://localhost:3000/users/addUser", new_user).then(
             function(response){
-                localStorage.setItem("token", response.data);
+                $scope.token = {
+                    "token":response.data,
+                    "username":new_user.userName
+                };
+                localStorage.setItem("token", $scope.token);
                 $scope.logged_user = new_user;
                 $window.location.href = "/index.html";
         }, function(response){

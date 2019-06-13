@@ -43,20 +43,50 @@ app.controller("controller", function($scope, $http, $window){
         alert("you have loged out!");
     }
 
+    $scope.search = async function(){
+
+        
+
+        alert($scope.query);
+    }
+ 
+
     if(localStorage.getItem("token")){
-        // alert("has token")
+        
+        // console.log("<"   +JSON.parse(localStorage.getItem("token")).token+"   >")
         $scope.logged_in = true;
-        let usertest = JSON.parse(localStorage.getItem("token")).username;
-        console.log("11111")
+        var t = JSON.parse(localStorage.getItem("token")).token;
+        console.log("test:\nlength="+t.length);
+        console.log(t);
+        var req1 = {
+             method: "GET",
+             url: "http://localhost:3000/private/users/get2popularpoi",
+             headers: { "x-auth-token": t }
+          }
+          console.log("wwwtttffff"+ req1.headers['x-auth-token']);
+        $http({
+            method: "GET",
+            url: "http://localhost:3000/private/users/get2popularpoi",
+            headers: { "x-auth-token": t }
+          }).then(
+            function mySuccess(response) {
+              $scope.pois2cat = response.data;
+            },
+            function myError(response) {
+              // $scope.twoPopularPOIS = response.statusText;
+              console.log("responce = "+ response);
+              alert("sorry failed to get the 2poisfrom category= "+response.data)
+            }
+          );
+
 
     }
     else{
         $scope.logged_in = false;
-        console.log("222222")
     }
     $http({
         method: "GET",
-        url:"http://localhost:3000/poi/getrandomPOI/3"
+        url:"http://localhost:3000/poi/getrandomPOI/0"
     }).then(
         function (response){
             $scope.random_pois = response.data;
@@ -70,3 +100,5 @@ app.controller("controller", function($scope, $http, $window){
 function logOut(){
     localStorage.clear();
 }
+function get2Pois(){
+alert("get2pois")}
