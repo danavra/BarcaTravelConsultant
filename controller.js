@@ -42,6 +42,7 @@ app.controller("controller", function($scope, $http, $window){
         $scope.logged_in = false;
         $window.location.href = "index.html"
 
+
     }
 
     //search
