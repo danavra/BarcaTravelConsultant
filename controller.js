@@ -30,6 +30,11 @@ app.config(['$routeProvider', function ($routeProvider){
             controller: "restorePasswordCtrl",
             controllerAs:"controller"
         })
+        .when("/browse", {
+            templateUrl: "contents/browse.html",
+            controller: "browseController",
+            controllerAs:"controller"
+        })
     .otherwise({
         redirectTo: '/'
     });
