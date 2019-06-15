@@ -42,6 +42,8 @@ app.config(['$routeProvider', function ($routeProvider){
 
 app.controller("controller", function($scope, $http, $window){
     
+    $scope.yaniv = "dan"
+
     if(localStorage.getItem("favorites")){
         $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length;
     }
@@ -102,6 +104,7 @@ app.controller("controller", function($scope, $http, $window){
                 localStorage.setItem("favorites", JSON.stringify(favorites) );
         }
                 $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length
+                
             
             
               
@@ -170,9 +173,9 @@ app.controller("controller", function($scope, $http, $window){
             function myError(response) {
                 $scope.haseLast2=false;
                 $scope.last2fav_msg = "favorites is empty";
-                $scope.lastSavedPois = [];
-              console.log("response = "+ response.data);
-              console.log("sorry failed to get 2 last save pois "+response.data)
+                $scope.lastSavedPois = new Array(0);
+              console.log("this error is ok if no favorites in db else could not get 2 last pois");
+              
             }
           );
     }

@@ -32,12 +32,14 @@
 <!-- display pois -->
 <div ng-repeat="poi in poisToShow">
     <div class="container" id="{{ poi['POIName'] }}" >
+        <!-- add to favorites -->
+        <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" />
         <!-- img -->
         <img   class="center" ng-src="{{poi['imgUrl']}}" name="{{poi['POIName']}}" alt="{{poi['POIName']}} "  >
         <!-- side buttons -->
         <h2 bold style="-webkit-text-fill-color: rgb(226, 197, 34)" >rank: {{ floor(poi['rank']) }} </h2>
         <button class="center" ng-click="getPoiInfo($event)" id="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
-        <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" />
+       
 
     </div>
 </div>
