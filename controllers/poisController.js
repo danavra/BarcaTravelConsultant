@@ -9,6 +9,7 @@ app.controller("poisController", function ($scope, $http, $window, $route) {
       }).then(
         function mySuccess(response) {
            
+            $scope.poiMeta = response.data;
             $scope.POIName = response.data.POIName;
             $scope.imgUrl = response.data.imgUrl;
             $scope.description = response.data.description;
