@@ -1,0 +1,47 @@
+
+
+
+
+
+
+{{pageInfo}}
+<br>
+
+<!-- show all button -->
+<button ng-click="getAllPois()" class="browserbuttons">show all!</button>
+
+<!-- show by category -->
+<label for "cat">select a category</label>
+    <select id="cat" ng-model="cat">
+        <option ng-repeat="x in categories">{{x}}</option>
+    </select>
+<button class="browserbuttons"  ng-click="getPoisByCat()">show only this category</button>
+
+<!-- search by name -->
+<input class="browserbuttons" type="text" name="toSearch" ng-model="toSearch" placeholder="enter point of interest">
+<button class="browserbuttons" ng-click="searchByName()">search</button>
+
+
+
+
+    <!-- sort by rank button -->
+    <button class="browserbuttons" ng-click="sortByRank()">sort by rank</button>
+    
+
+
+<!-- display pois -->
+<div ng-repeat="poi in poisToShow">
+    <div class="container" id="{{ poi['POIName'] }}" >
+        <!-- img -->
+        <img   class="center" ng-src="{{poi['imgUrl']}}" name="{{poi['POIName']}}" alt="{{poi['POIName']}} "  >
+        <!-- side buttons -->
+        <h2 bold style="-webkit-text-fill-color: rgb(226, 197, 34)" >rank: {{ floor(poi['rank']) }} </h2>
+        <button class="center" ng-click="getPoiInfo($event)" id="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
+        <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" />
+
+    </div>
+</div>
+
+
+
+    {{poisToShow}}

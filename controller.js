@@ -42,6 +42,9 @@ app.config(['$routeProvider', function ($routeProvider){
 
 app.controller("controller", function($scope, $http, $window){
     
+    if(localStorage.getItem("favorites")){
+        $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length;
+    }
     //logout
     $scope.logOut = function(){
         window.getSelection();
@@ -55,13 +58,6 @@ app.controller("controller", function($scope, $http, $window){
 
     }
 
-    //search
-    $scope.search = async function(){
-
-        // to do
-
-        alert($scope.query);
-    }
 
     //getpoiinfo
     $scope.getPoiInfo = function($event){
@@ -70,6 +66,59 @@ app.controller("controller", function($scope, $http, $window){
         $window.location.href = "#!/pois"
 
     }
+
+    //add or removes to local favorites
+    $scope.addToFav = function($event){
+
+        //not loged in and pressed favorits
+        if(!localStorage.getItem("token")){
+            alert(" please log in to add favorites!");
+            return;
+        }
+        
+        if(localStorage.getItem("favorites")){
+            
+            var poi = JSON.parse($event.currentTarget.value);
+
+            //remove
+            if(isInFav(poi.POIName)){
+                var favorites = JSON.parse(localStorage.getItem("favorites"));
+                var newFav = new Array();
+                favorites.forEach(function(p) {
+                    if(p.POIName===poi.POIName){
+                       console.log(poi.POIName + " deleted from local fav")
+                    }
+                    else{
+                    newFav.push(p);
+                    }
+                  });
+                  localStorage.setItem("favorites", JSON.stringify(newFav) );
+            }
+            //add
+            else{
+                var favorites = JSON.parse(localStorage.getItem("favorites"));
+                favorites.push(poi);
+                console.log(poi.POIName + "was added to local favorites")
+                localStorage.setItem("favorites", JSON.stringify(favorites) );
+        }
+                $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length
+            
+            
+              
+            
+        }
+        //should never happen
+        else {alert("this is wierd.. favorites not in local storage")
+        return;
+    }
+
+    }
+
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<hapens every time page loads>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
     //get randompois
         $http({
         method: "GET",
@@ -88,12 +137,13 @@ app.controller("controller", function($scope, $http, $window){
     //get pois by user categories    
     if(localStorage.getItem("token")){
         $scope.logged_in = true;
-        var t = JSON.parse(localStorage.getItem("token")).token;  
+        var token = JSON.parse(localStorage.getItem("token")).token;  
         
+        //get poi by users categories
         $http({
             method: "GET",
             url: "http://localhost:3000/private/users/get2popularpoi",
-            headers: { "x-auth-token": t }
+            headers: { "x-auth-token": token }
           }).then(
             function mySuccess(response) {
               $scope.pois2cat = response.data;
@@ -104,6 +154,27 @@ app.controller("controller", function($scope, $http, $window){
               console.log("sorry failed to get the 2poisfrom category= "+response.data)
             }
           );
+
+           //get last 2 user saved pois
+           $scope.haseLast2=false;
+           $http({
+            method: "GET",
+            url: "http://localhost:3000/private/users/getuserlast2savedpoi",
+            headers: { "x-auth-token": token }
+          }).then(
+            function mySuccess(response) {
+                $scope.haseLast2=true;
+                $scope.lastSavedPois = response.data;
+                $scope.last2fav_msg = "here are the last 2 points of interes  you have added to you favorites";
+            },
+            function myError(response) {
+                $scope.haseLast2=false;
+                $scope.last2fav_msg = "favorites is empty";
+                $scope.lastSavedPois = [];
+              console.log("response = "+ response.data);
+              console.log("sorry failed to get 2 last save pois "+response.data)
+            }
+          );
     }
     else{
         $scope.logged_in = false;
@@ -112,8 +183,16 @@ app.controller("controller", function($scope, $http, $window){
     
 
 });
-function logOut(){
-    localStorage.clear();
+
+function isInFav(poi){
+  
+    var favorites = JSON.parse(localStorage.getItem("favorites"));
+    var ans = false;
+    favorites.forEach(function(p) {
+        if(p.POIName==poi){
+           ans = true;
+        }
+      });
+      return ans;
+
 }
-function get2Pois(){
-alert("get2pois")}
