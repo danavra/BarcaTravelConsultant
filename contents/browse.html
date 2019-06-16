@@ -32,8 +32,18 @@
 <!-- display pois -->
 <div ng-repeat="poi in poisToShow">
     <div class="container" id="{{ poi['POIName'] }}" >
+
+
+
+            <div ng-init="x=test(poi['POIName'])" ></div>
+
+            <!-- favorite_btn -->
+        <div  ng-click="addToFav($event)">
+            <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x" class="fa fa-star checked" ></button>
+            <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star " ></button>
+        </div>
         <!-- add to favorites -->
-        <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" />
+        <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
         <!-- img -->
         <img   class="center" ng-src="{{poi['imgUrl']}}" name="{{poi['POIName']}}" alt="{{poi['POIName']}} "  >
         <!-- side buttons -->
