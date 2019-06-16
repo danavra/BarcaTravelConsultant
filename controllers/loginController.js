@@ -49,7 +49,8 @@ app.controller("loginController", function ($scope, $http, $window) {
             headers: { "x-auth-token": JSON.parse(localStorage.getItem("token")).token  }
           }).then(
             function mySuccess(response) {
-                localStorage.setItem("favorites", JSON.stringify(response.data));
+                
+                localStorage.setItem("favorites", JSON.stringify(reOrder(response.data)));
                 console.log("favorites loded succesully")
                 $window.location.href = "/index.html";
             },
@@ -60,3 +61,18 @@ app.controller("loginController", function ($scope, $http, $window) {
         
     }
 });
+
+function reOrder(arr){
+    if(arr==="Not Found"){
+        return new Array(0);
+    }
+    console.log("adsdsada  "+ arr)
+    var ans = new Array();
+    arr.forEach(element => {
+       ans[parseInt(element.place) -1] = element;
+    })
+    return ans;
+    
+
+
+  }

@@ -20,16 +20,18 @@
 
   </head>
   <body ng-app="myapp" ng-controller="controller">
+    
       <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
         <div class="navbar-nav">
           <a class="navbar-brand" href="#"><img src="https://cdn0.iconfinder.com/data/icons/user-interface-vol-5-4/66/2-512.png"
             width="30" height="30" alt="Home"></a>
+            <a class="nav-item nav-link" href="#!/browse">Browse</a>
           <a class="nav-item nav-link" href="#!/login" ng-hide="logged_in">Login</a>
           <a class="nav-item nav-link" href="#!/register" ng-hide="logged_in">Register</a>
-          <a class="nav-item nav-link" href="#!/profile" ng-show="logged_in">Profile</a>
+          <a ng-model="favAmount" class="nav-item nav-link" href="#!/profile" ng-show="logged_in">Favorits ({{ favAmount}}) </a>
           <!-- <a class="nav-item nav-link" href="#!/pois" ng-show="logged_in">Points of Interest</a> -->
-          <a class="nav-item nav-link" href="#!/" ng-show="logged_in" ng-click="logOut()">logout</a>
-          <a class="nav-item nav-link" href="#!/browse">browse</a>
+          <a class="nav-item nav-link" href="#!/" ng-show="logged_in" ng-click="logOut()">Logout</a>
+          
           <a class="nav-item nav-link" href="">About</a>
         </div>
       </nav>

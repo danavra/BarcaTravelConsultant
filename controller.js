@@ -40,9 +40,25 @@ app.config(['$routeProvider', function ($routeProvider){
     });
 }]);
 
-app.controller("controller", function($scope, $http, $window){
-    
+app.controller("controller", function($scope, $http, $window,$route){
+    // localStorage.clear();
+
     $scope.yaniv = "dan"
+    $scope.test = function(poi){
+        if(!localStorage.getItem("favorites")){
+            return false;
+        }
+       
+        var ans = false;
+        // console.log("for me "+ JSON.parse(localStorage.getItem("favorites")))[0]
+        JSON.parse(localStorage.getItem("favorites")).forEach(function(info){
+            if(poi==info.POIName){
+                ans=true;
+            }
+        });
+        return ans;
+        
+    }
 
     if(localStorage.getItem("favorites")){
         $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length;
@@ -72,6 +88,7 @@ app.controller("controller", function($scope, $http, $window){
     //add or removes to local favorites
     $scope.addToFav = function($event){
 
+        
         //not loged in and pressed favorits
         if(!localStorage.getItem("token")){
             alert(" please log in to add favorites!");
@@ -80,7 +97,11 @@ app.controller("controller", function($scope, $http, $window){
         
         if(localStorage.getItem("favorites")){
             
-            var poi = JSON.parse($event.currentTarget.value);
+            var obj1 = $event.currentTarget.value;
+            if(!obj1){
+                return;
+            }
+            var poi = JSON.parse(obj1);
 
             //remove
             if(isInFav(poi.POIName)){
@@ -104,6 +125,7 @@ app.controller("controller", function($scope, $http, $window){
                 localStorage.setItem("favorites", JSON.stringify(favorites) );
         }
                 $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length
+                // $route.reload();
                 
             
             
