@@ -43,7 +43,7 @@ app.config(['$routeProvider', function ($routeProvider){
 app.controller("controller", function($scope, $http, $window,$route){
     // localStorage.clear();
 
-    $scope.yaniv = "dan"
+    //is in fav
     $scope.test = function(poi){
         if(!localStorage.getItem("favorites")){
             return false;
@@ -58,6 +58,9 @@ app.controller("controller", function($scope, $http, $window,$route){
         });
         return ans;
         
+    }
+    $scope.getfavAmount = function(){
+        return JSON.parse(Storage.getItem("favorites")).length
     }
 
     if(localStorage.getItem("favorites")){
@@ -214,6 +217,7 @@ app.controller("controller", function($scope, $http, $window,$route){
     if(localStorage.getItem("token")){
         $scope.logged_in = true;
         var token = JSON.parse(localStorage.getItem("token")).token;  
+        $scope.userName = JSON.parse(localStorage.getItem("token")).username;
         
         //get poi by users categories
         $http({

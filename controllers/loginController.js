@@ -20,7 +20,7 @@ app.controller("loginController", function ($scope, $http, $window) {
                         console.log(response.data);
                         $scope.token  = JSON.stringify({
                             "token": response.data,
-                            username: $scope.login_username
+                            "username": $scope.login_username
                         });
                         localStorage.setItem("token", $scope.token);
                         getuserfavpois();
@@ -66,7 +66,7 @@ function reOrder(arr){
     if(arr==="Not Found"){
         return new Array(0);
     }
-    console.log("adsdsada  "+ arr)
+    
     var ans = new Array();
     arr.forEach(element => {
        ans[parseInt(element.place) -1] = element;

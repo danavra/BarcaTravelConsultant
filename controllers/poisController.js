@@ -14,7 +14,12 @@ app.controller("poisController", function ($scope, $http, $window, $route) {
             $scope.imgUrl = response.data.imgUrl;
             $scope.description = response.data.description;
             $scope.rank = response.data.rank;
-            $scope.fullStar = parseInt(response.data.rank);
+            if(response.data.rank - parseInt(response.data.rank) < 0.5){
+              $scope.fullStar = parseInt(Math.floor(response.data.rank));
+            }
+            else{
+              $scope.fullStar = parseInt(Math.ceil(response.data.rank));
+            }
             $scope.emptyStar = 5 - $scope.fullStar;
             $scope.views = response.data.views;
             $scope.postReview = false;
@@ -74,6 +79,7 @@ app.controller("poisController", function ($scope, $http, $window, $route) {
         );
         
       }
+      
 
       $scope.floor = function(number){
         return parseInt(number*100)/100
