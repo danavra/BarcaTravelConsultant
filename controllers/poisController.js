@@ -79,7 +79,7 @@ app.controller("poisController", function ($scope, $http, $window, $route) {
         );
         
       }
-      
+
 
       $scope.floor = function(number){
         return parseInt(number*100)/100
@@ -97,6 +97,8 @@ app.controller("poisController", function ($scope, $http, $window, $route) {
           var min = x.getMinutes().toString();
           (d.length == 1) && (d = '0' + d);
           (m.length == 1) && (m = '0' + m);
+          (h.length == 1) && (h = '0' + h);
+          (min.length == 1) && (min = '0' + min);
           var yyyymmdd = d +"."+ m +"."+ d+"   time: "+h+":"+min;
           return yyyymmdd;
       }
