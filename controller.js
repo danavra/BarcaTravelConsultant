@@ -35,6 +35,11 @@ app.config(['$routeProvider', function ($routeProvider){
             controller: "browseController",
             controllerAs:"controller"
         })
+        .when("/about", {
+            templateUrl: "contents/about.html",
+            // controller: "browseController",
+            // controllerAs:"controller"
+        })
     .otherwise({
         redirectTo: '/'
     });
