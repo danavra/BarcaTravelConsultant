@@ -57,7 +57,6 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
 
     $scope.sortByRank = function(){
         $scope.poisToShow = sortByKey($scope.poisToShow,'rank')
-
     }
 
     $scope.searchByName = function(){       

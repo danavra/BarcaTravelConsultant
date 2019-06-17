@@ -1,38 +1,71 @@
-{{pageInfo}}
-<br>
+<div class="container" style="background-color: rgb(199, 211, 199)">
+        <div class="row">
+          <div class="col-sm">
+           <!-- show all button -->
+            <button ng-click="getAllPois()" class="browserbuttons">show all!</button>
+          </div>
+          <div class="col-sm">
+                <label for="cat">select a category</label>
+                <select id="cat" ng-model="cat">
+                        <option ng-repeat="x in categories">{{x}}</option>
+                    </select>
+          </div>
+          <!-- <div class="col-sm"> -->
+                
+          <!-- </div> -->
+          <div class="col-sm">
+                <button class="browserbuttons" ng-click="getPoisByCat()">show only this category</button>
+              </div>
+              <div class="col-sm">
+                    <input class="browserbuttons" type="text" name="toSearch" ng-model="toSearch" placeholder="enter point of interest">
+              </div>
+              <div class="col-sm">
+                    <button class="browserbuttons" ng-click="searchByName()">search</button>
+              </div>
+              <div class="col-sm">
+                    <button class="browserbuttons" ng-click="sortByRank()">sort by rank</button>
+                  </div>
+        </div>
+      </div>
 
-<!-- show all button -->
-<button ng-click="getAllPois()" class="browserbuttons">show all!</button>
+
+
+
+
+
+
+
+
+
+
 
 <!-- show by category -->
-<label for "cat">select a category</label>
-<select id="cat" ng-model="cat">
-    <option ng-repeat="x in categories">{{x}}</option>
-</select>
-<button class="browserbuttons" ng-click="getPoisByCat()">show only this category</button>
+
+
+
 
 <!-- search by name -->
-<input class="browserbuttons" type="text" name="toSearch" ng-model="toSearch" placeholder="enter point of interest">
-<button class="browserbuttons" ng-click="searchByName()">search</button>
+<!-- <input class="browserbuttons" type="text" name="toSearch" ng-model="toSearch" placeholder="enter point of interest"> -->
+<!-- <button class="browserbuttons" ng-click="searchByName()">search</button> -->
 
 
 
 
 <!-- sort by rank button -->
-<button class="browserbuttons" ng-click="sortByRank()">sort by rank</button>
+<!-- <button class="browserbuttons" ng-click="sortByRank()">sort by rank</button> -->
 
 
 
 <!-- display pois -->
-<div ng-repeat="poi in poisToShow">
-    <div class="container" id="{{ poi['POIName'] }}">
+<div ng-repeat="poi in poisToShow" >
+    <div class="container center" id="{{ poi['POIName'] }}" style=" background-color: rgb(86, 54, 88); border-radius: 10%; opacity: 0.9;">
 
 
 
         <div ng-init="x=test(poi['POIName'])"></div>
 
         <!-- favorite_btn -->
-        <div ng-click="x = !x">
+        <div ng-click="x = !x" class="center">
             <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
                 class="fa fa-star checked center" style="width:fit-content;"></button>
             <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
@@ -105,8 +138,10 @@
             </table>
         </div>
     </div>
+    
     <!--  -->
 
 
 </div>
+<br><br><br><br>
 </div>
