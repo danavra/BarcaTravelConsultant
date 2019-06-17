@@ -1,4 +1,4 @@
-app.controller("browseController", function ($scope, $http, $window) {
+app.controller("browseController", function ($scope, $http, $window,$route) {
 
     $scope.pageInfo= "here are all the points of interests in our site:"
     $scope.poisToShow = new Array(0);
@@ -83,28 +83,61 @@ app.controller("browseController", function ($scope, $http, $window) {
         )
     }
 
-    $scope.getPoiInfo = function($event){
-        console.log($event.currentTarget.id);
-        localStorage.setItem("currentPoi", $event.currentTarget.id);
-        $window.location.href = "#!/pois"
-
-    }
-
     $scope.floor = function(number){
         return parseInt(number*100)/100
 
     }
 
+    ////////////////
+    //post review
+    $scope.submitRating = async function(message,newRank,POIName){
+        
+        if(!newRank){
+          alert("rank must be 1-5 ")
+          return;
+        }
+        
+        // token*, JSON{"POIName": "Camp Nou","content": "very good","rating": 5}
+
+        var req = {
+          method: "POST",
+          url: "http://localhost:3000/private/users/addpoireview",
+          headers: {
+            "x-auth-token": JSON.parse(localStorage.getItem("token")).token
+          },
+          "data":{
+            "POIName": POIName,
+            "content": message,
+            "rating": newRank
+
+          }
+        }
+        await $http(req)
+        .then(
+                function (response) {
+                    alert("you rating has been accepted!\n thank you!");
+                    // $route.reload();
+            },
+            function (response) {
+                console.log(response);
+                alert("error: "+response.data);
+                
+            }
+        );
+        
+      }
+
+
+      $scope.clear = function(){
+          return "";
+      }
+
+      ////////////////////
+
    $scope.getAllPois();
    
    
 });
-
-function test(poisToSort){
-   
-      
-}
-
 
 //pois,'rank'
 function sortByKey(array, key) {
