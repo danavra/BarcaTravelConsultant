@@ -79,16 +79,19 @@ app.controller("controller", function($scope, $http, $window,$route){
 
     //getpoiinfo
     $scope.getPoiInfo = function($event){
-        console.log($event.currentTarget.id);
-        localStorage.setItem("currentPoi", $event.currentTarget.id);
+        // console.log($event.currentTarget.value);
+        if($event.currentTarget.value){
+            localStorage.setItem("currentPoi", $event.currentTarget.value );
+        }
+        else{
+            localStorage.setItem("currentPoi", $event.currentTarget.name );
+        }
+        
         $window.location.href = "#!/pois"
-
     }
 
     //add or removes to local favorites
     $scope.addToFav = function($event){
-
-        
         //not loged in and pressed favorits
         if(!localStorage.getItem("token")){
             alert(" please log in to add favorites!");
@@ -126,10 +129,6 @@ app.controller("controller", function($scope, $http, $window,$route){
         }
                 $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length
                 // $route.reload();
-                
-            
-            
-              
             
         }
         //should never happen
@@ -138,6 +137,58 @@ app.controller("controller", function($scope, $http, $window,$route){
     }
 
     }
+
+
+
+    ////////////////
+    //post review
+    $scope.submitRating = async function(message,newRank,POIName){
+        
+        if(!newRank || newRank > 5 || newRank < 1){
+          alert("rank must be 1-5 ")
+          return;
+        }
+        
+        // token*, JSON{"POIName": "Camp Nou","content": "very good","rating": 5}
+
+        var req = {
+          method: "POST",
+          url: "http://localhost:3000/private/users/addpoireview",
+          headers: {
+            "x-auth-token": JSON.parse(localStorage.getItem("token")).token
+          },
+          "data":{
+            "POIName": POIName,
+            "content": message,
+            "rating": newRank
+
+          }
+        }
+        await $http(req)
+        .then(
+                function (response) {
+                    alert("you rating has been accepted!\n thank you!");
+                    // $route.reload();
+            },
+            function (response) {
+                console.log(response);
+                alert("error: "+response.data);
+                
+            }
+        );
+        
+      }
+
+
+      $scope.clear = function(){
+          return "";
+      }
+
+      ////////////////////
+
+
+    
+    
 
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<hapens every time page loads>>>>>>>>>>>>>>>>>>>>>>>>>>>
