@@ -3,10 +3,46 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
     $scope.pageInfo= "here are all the points of interests in our site:"
     $scope.poisToShow = new Array(0);
     $scope.categories = ["Museums", "Shopping", "Attractions", "Food"];
+    $scope.showCatMuseum = false;
+    $scope.showCatShopping = false;
+    $scope.showCatAttractions = false;
+    $scope.showCatFood = false;
+    $scope.showAllPois2 = true;
+    $scope.showingMsg = "categories view"
 
+    $scope.changeViewToAll = function(){
+    $scope.showCatMuseum = false;
+    $scope.showCatShopping = false;
+    $scope.showCatAttractions = false;
+    $scope.showCatFood = false;
+    $scope.showAllPois2 = true;
+    $scope.showingMsg = "categories view"
     
+
+    }
+    
+
+    $scope.changeview = function(){
+        if($scope.showingMsg==="show all!"){
+            $scope.showingMsg="categories view"
+        }
+        else{
+            $scope.showingMsg="show all!"
+        }
+
+        $scope.poisToShow =  $scope.poisToShowPerminent
+
+        $scope.showCatMuseum = !$scope.showCatMuseum
+        $scope.showCatShopping = !$scope.showCatShopping
+        $scope.showCatAttractions = !$scope.showCatAttractions
+        $scope.showCatFood = !$scope.showCatFood
+        $scope.showAllPois2 = !$scope.showAllPois2
+    }
     $scope.getAllPois = function(){
-        
+        $scope.changeview()
+    }
+
+    $scope.loadAllPois = function(){
         var req = 
         {
             method: "GET",
@@ -18,6 +54,8 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
         .then(
             function(response){
                 $scope.poisToShow = response.data;
+                $scope.poisToShowPerminent = response.data;
+
                 
             }
             ,function(response){
@@ -25,8 +63,95 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
             }
 
         )
+    }
+    // this is for new showing by cat
+    $scope.getPoisByCat2 = function(){
+
+        //museum
+        var req = 
+        {
+            method: "GET",
+            url: "http://localhost:3000/poi/getallpoibycategory/" + "Museums",
+        }
+        
+        $http(req)
+        .then(
+            function(response){
+                $scope.MuseumsPois = response.data;
+               
+            }
+            ,function(response){
+                alert("could not get pois for category"+"Museums");
+            }
+
+        )
+
+        //shopiong
+        var req = 
+        {
+            method: "GET",
+            url: "http://localhost:3000/poi/getallpoibycategory/" + "Shopping",
+        }
+        
+        $http(req)
+        .then(
+            function(response){
+                $scope.ShoppingPois = response.data;
+               
+            }
+            ,function(response){
+                alert("could not get pois for category"+"Shopping");
+            }
+
+        )
+
+        // Attractions
+        var req = 
+        {
+            method: "GET",
+            url: "http://localhost:3000/poi/getallpoibycategory/" + "Attractions",
+        }
+        
+        $http(req)
+        .then(
+            function(response){
+                $scope.AttractionsPois = response.data;
+               
+            }
+            ,function(response){
+                alert("could not get pois for category"+"Attractions");
+            }
+
+        )
+
+
+        var req = 
+        {
+            method: "GET",
+            url: "http://localhost:3000/poi/getallpoibycategory/" + "Food",
+        }
+
+        // Food
+        $http(req)
+        .then(
+            function(response){
+                $scope.FoodPois = response.data;
+               
+            }
+            ,function(response){
+                alert("could not get pois for category"+Food);
+            }
+
+        )
+
+        
 
     }
+    //gett pois by cat
+    $scope.loadAllPois();
+    $scope.getPoisByCat2();
+
+
 
     $scope.getPoisByCat = function(){
         if(!$scope.cat){
@@ -44,6 +169,7 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
         $http(req)
         .then(
             function(response){
+                $scope.changeViewToAll();
                 $scope.poisToShow = response.data;
                
             }
@@ -57,6 +183,8 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
 
     $scope.sortByRank = function(){
         $scope.poisToShow = sortByKey($scope.poisToShow,'rank')
+        $scope.changeViewToAll();
+        
     }
 
     $scope.searchByName = function(){       
@@ -74,6 +202,7 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
         .then(
             function(response){
                 $scope.poisToShow = response.data;
+                $scope.changeViewToAll();
             }
             ,function(response){
                 alert("could not find "+ $scope.toSearch);
@@ -131,9 +260,7 @@ app.controller("browseController", function ($scope, $http, $window,$route) {
           return "";
       }
 
-      ////////////////////
-
-   $scope.getAllPois();
+      
    
    
 });

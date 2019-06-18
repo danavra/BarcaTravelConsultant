@@ -1,147 +1,532 @@
-<div class="container" style="background-color: rgb(199, 211, 199)">
-        <div class="row">
-          <div class="col-sm">
-           <!-- show all button -->
-            <button ng-click="getAllPois()" class="browserbuttons">show all!</button>
-          </div>
-          <div class="col-sm">
-                <label for="cat">select a category</label>
-                <select id="cat" ng-model="cat">
-                        <option ng-repeat="x in categories">{{x}}</option>
-                    </select>
-          </div>
-          <!-- <div class="col-sm"> -->
-                
-          <!-- </div> -->
-          <div class="col-sm">
-                <button class="browserbuttons" ng-click="getPoisByCat()">show only this category</button>
-              </div>
-              <div class="col-sm">
-                    <input class="browserbuttons" type="text" name="toSearch" ng-model="toSearch" placeholder="enter point of interest">
-              </div>
-              <div class="col-sm">
-                    <button class="browserbuttons" ng-click="searchByName()">search</button>
-              </div>
-              <div class="col-sm">
-                    <button class="browserbuttons" ng-click="sortByRank()">sort by rank</button>
-                  </div>
+<h1 style="text-align: center; font-size: 40px;" class="center">Browse</h1>
+<div class="container" style="background-color: rgb(224, 174, 99); border-radius: 30px">
+    <div class="row">
+        <div class="col-sm">
+            <!-- show all button -->
+            <button ng-click="getAllPois()" class="browserbuttons center" style=" width: 170px; display: table-cell; vertical-align: middle;
+            height: 50px;">{{showingMsg}}</button>
         </div>
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- show by category -->
-
-
-
-
-<!-- search by name -->
-<!-- <input class="browserbuttons" type="text" name="toSearch" ng-model="toSearch" placeholder="enter point of interest"> -->
-<!-- <button class="browserbuttons" ng-click="searchByName()">search</button> -->
-
-
-
-
-<!-- sort by rank button -->
-<!-- <button class="browserbuttons" ng-click="sortByRank()">sort by rank</button> -->
-
-
-
-<!-- display pois -->
-<div ng-repeat="poi in poisToShow" >
-    <div class="container center" id="{{ poi['POIName'] }}" style=" background-color: rgb(86, 54, 88); border-radius: 10%; opacity: 0.9;">
-
-
-
-        <div ng-init="x=test(poi['POIName'])"></div>
-
-        <!-- favorite_btn -->
-        <div ng-click="x = !x" class="center">
-            <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
-                class="fa fa-star checked center" style="width:fit-content;"></button>
-            <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
-                style="width:fit-content;"></button>
+        <div class="col-sm">
+            <label for="cat">Select a category</label>
+            <select id="cat" ng-model="cat" ng-change="getPoisByCat()">
+                <option ng-repeat="x in categories">{{x}}</option>
+            </select>
         </div>
-        <!-- add to favorites -->
-        <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
-        <!-- img -->
-        <img class="center" ng-src="{{poi['imgUrl']}}" alt="{{poi['POIName']}} " ng-click="getPoiInfo($event)"
-            name="{{poi['POIName'] }}">
-        <!-- side buttons -->
-        <h2 bold class="center" style="-webkit-text-fill-color: rgb(0, 0, 0); font-size: 20px">rating: {{ floor(poi['rank']/5*100) }}% </h2>
-
-        <button class="center" ng-click="getPoiInfo($event)" value="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
-
-
-
-        <!-- !-- post review form --> 
-        <button ng-show="logged_in" type="button" class="btn btn-info btn-lg center" ng-click="openRevieq=!openRevieq"
-            ng-init="openRevieq=false"> post a review</button> 
-        <div ng-show="openRevieq" class="container" style="background-color: rgb(180, 248, 231)">
-            <div class="row">
-                <h2>Feedback</h2>
-                <table width="100%" border="0">
-                    <div class="col-md-9 col-md-offset-0">
-                        <tr>
-                            <td width="77%">
-                                <div class="">
-                                    <form class="form-horizontal" action="send.php" method="post">
-                                        <fieldset>
-
-
-                                            <!-- Message body -->
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label" for="message">Your message</label>
-                                                <div class="col-md-9">
-                                                    <textarea class="form-control" id="message" ng-model="message"
-                                                        placeholder="Please enter your feedback here..."
-                                                        rows="5"></textarea>
-                                                </div>
-                                            </div>
-
-
-                                            <!-- Rating -->
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label" for="message">Your rating</label>
-                                                <div class="col-md-9">
-                                                    <input style="width:100px" id="input-21e" ng-model="newRank" value="0" type="number"
-                                                        class="rating" min=0 max=5 step=1>
-                                                </div>
-                                            </div>
-                            </td>
-                            <td align="center" valign="top" width="23%">
-                                <!-- Form actions -->
-                                <div class="form-group">
-                                    <div class="col-md-12 text-center">
-                                        <img ng-src="/resources/ranker.jpeg" height="140px" width="270px" /><br />
-                                        <button type="submit" class="btn btn-primary btn-md"
-                                            ng-click="submitRating(message,newRank,poi['POIName']); openRevieq=!openRevieq">Submit</button>
-                                        <button type="reset" class="btn btn-default btn-md" ng-click="message=clear(); newRank=0">
-                                            Clear</button>
-                                    </div>
-                                </div>
-                                </fieldset>
-                                </form>
-                    </div>
-            </div>
-            </td>
-            </tr>
-            </table>
+        <div class="col-sm">
+            <input class="browserbuttons center" type="text" name="toSearch" ng-model="toSearch" style="height: 50px;"
+                placeholder="Enter point of interest">
+        </div>
+        <div class="col-sm">
+            <button class="browserbuttons center" ng-click="searchByName()" style=" display: table-cell; vertical-align: middle;
+        height: 50px; background-color: rgb(40, 104, 241);">Search</button>
+        </div>
+        <div class="col-sm">
+            <button class="browserbuttons center" ng-click="sortByRank()" style=" display: table-cell; vertical-align: middle;
+            height: 50px">Sort by rank</button>
         </div>
     </div>
-    
-    <!--  -->
+</div>
+
+<br><br><br>
+
+
+
+<!-- display poisallPois -->
+<div ng-show="showAllPois2">
+    <div ng-repeat="poi in poisToShow">
+        <div class="container center" id="{{ poi['POIName'] }}"
+            style=" background-color: rgb(86, 54, 88); border-radius: 10%; opacity: 0.9;">
+
+
+
+            <div ng-init="x=test(poi['POIName'])"></div>
+
+            <!-- favorite_btn -->
+            <div ng-click="x = !x" class="center">
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
+                    class="fa fa-star checked center" style="width:fit-content;"></button>
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
+                    style="width:fit-content;"></button>
+            </div>
+            <!-- add to favorites -->
+            <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
+            <!-- img -->
+            <img class="center" ng-src="{{poi['imgUrl']}}" alt="{{poi['POIName']}} " ng-click="getPoiInfo($event)"
+                name="{{poi['POIName'] }}">
+            <!-- side buttons -->
+            <h2 bold class="center" style="-webkit-text-fill-color: rgb(0, 0, 0); font-size: 20px">rating:
+                {{ floor(poi['rank']/5*100) }}% </h2>
+
+            <button class="center" ng-click="getPoiInfo($event)"
+                value="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
+
+
+
+            <!-- !-- post review form -->
+            <button ng-show="logged_in" type="button" class="btn btn-info btn-lg center"
+                ng-click="openRevieq=!openRevieq" ng-init="openRevieq=false"> post a review</button>
+            <div ng-show="openRevieq" class="container" style="background-color: rgb(180, 248, 231)">
+                <div class="row">
+                    <h2>Feedback</h2>
+                    <table width="100%">
+                        <div class="col-md-9 col-md-offset-0">
+                            <tr>
+                                <td width="77%">
+                                    <div class="">
+                                        <form class="form-horizontal" action="send.php" method="post">
+                                            <fieldset>
+
+
+                                                <!-- Message body -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        message</label>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="message" ng-model="message"
+                                                            placeholder="Please enter your feedback here..."
+                                                            rows="5"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Rating -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        rating</label>
+                                                    <div class="col-md-9">
+                                                        <input style="width:100px" id="input-21e" ng-model="newRank"
+                                                            value="0" type="number" class="rating" min=0 max=5 step=1>
+                                                    </div>
+                                                </div>
+                                </td>
+                                <td valign="top" width="23%">
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center">
+                                            <img ng-src="/resources/ranker.jpeg" height="140px" width="270px" /><br />
+                                            <button type="submit" class="btn btn-primary btn-md"
+                                                ng-click="submitRating(message,newRank,poi['POIName']); openRevieq=!openRevieq">Submit</button>
+                                            <button type="reset" class="btn btn-default btn-md"
+                                                ng-click="message=clear(); newRank=0">
+                                                Clear</button>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                    </form>
+                        </div>
+
+                        </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
 
 
 </div>
-<br><br><br><br>
+
+
+
+<!-- display pois in category museum -->
+<div ng-show="showCatMuseum" style="background-color: rgb(233, 201, 201); opacity: 0.9;  " class="center">
+    <br>
+    <h1 style="text-align: center">"Museum"</h1>
+    <br>
+    <div ng-repeat="poi in MuseumsPois">
+        <div class="container center" id="{{ poi['POIName'] }}"
+            style=" background-color: rgb(146, 33, 33); border-radius: 10%; opacity: 0.9;">
+
+
+
+            <div ng-init="x=test(poi['POIName'])"></div>
+
+            <!-- favorite_btn -->
+            <div ng-click="x = !x" class="center">
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
+                    class="fa fa-star checked center" style="width:fit-content;"></button>
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
+                    style="width:fit-content;"></button>
+            </div>
+            <!-- add to favorites -->
+            <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
+            <!-- img -->
+            <img class="center" ng-src="{{poi['imgUrl']}}" alt="{{poi['POIName']}} " ng-click="getPoiInfo($event)"
+                name="{{poi['POIName'] }}">
+            <!-- side buttons -->
+            <h2 bold class="center" style="-webkit-text-fill-color: rgb(0, 0, 0); font-size: 20px">rating:
+                {{ floor(poi['rank']/5*100) }}% </h2>
+
+            <button class="center" ng-click="getPoiInfo($event)"
+                value="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
+
+
+
+            <!-- !-- post review form -->
+            <button ng-show="logged_in" type="button" class="btn btn-info btn-lg center"
+                ng-click="openRevieq=!openRevieq" ng-init="openRevieq=false"> post a review</button>
+            <div ng-show="openRevieq" class="container" style="background-color: rgb(180, 248, 231)">
+                <div class="row">
+                    <h2>Feedback</h2>
+                    <table width="100%">
+                        <div class="col-md-9 col-md-offset-0">
+                            <tr>
+                                <td width="77%">
+                                    <div class="">
+                                        <form class="form-horizontal" action="send.php" method="post">
+                                            <fieldset>
+
+
+                                                <!-- Message body -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        message</label>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="message" ng-model="message"
+                                                            placeholder="Please enter your feedback here..."
+                                                            rows="5"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Rating -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        rating</label>
+                                                    <div class="col-md-9">
+                                                        <input style="width:100px" id="input-21e" ng-model="newRank"
+                                                            value="0" type="number" class="rating" min=0 max=5 step=1>
+                                                    </div>
+                                                </div>
+                                </td>
+                                <td valign="top" width="23%">
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center">
+                                            <img ng-src="/resources/ranker.jpeg" height="140px" width="270px" /><br />
+                                            <button type="submit" class="btn btn-primary btn-md"
+                                                ng-click="submitRating(message,newRank,poi['POIName']); openRevieq=!openRevieq">Submit</button>
+                                            <button type="reset" class="btn btn-default btn-md"
+                                                ng-click="message=clear(); newRank=0">
+                                                Clear</button>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                    </form>
+                        </div>
+
+                        </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+
+
+</div>
+
+
+
+<!-- display pois in category Shopping -->
+
+<div ng-show="showCatShopping" style="background-color: rgb(201, 233, 231); opacity: 0.9;  " class="center">
+    <br>
+    <h1 style="text-align: center">"shopping"</h1>
+    <br>
+    <div ng-repeat="poi in ShoppingPois">
+        <div class="container center" id="{{ poi['POIName'] }}"
+            style=" background-color: rgb(28, 31, 194); border-radius: 10%; opacity: 0.9;">
+
+
+
+            <div ng-init="x=test(poi['POIName'])"></div>
+
+            <!-- favorite_btn -->
+            <div ng-click="x = !x" class="center">
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
+                    class="fa fa-star checked center" style="width:fit-content;"></button>
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
+                    style="width:fit-content;"></button>
+            </div>
+            <!-- add to favorites -->
+            <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
+            <!-- img -->
+            <img class="center" ng-src="{{poi['imgUrl']}}" alt="{{poi['POIName']}} " ng-click="getPoiInfo($event)"
+                name="{{poi['POIName'] }}">
+            <!-- side buttons -->
+            <h2 bold class="center" style="-webkit-text-fill-color: rgb(0, 0, 0); font-size: 20px">rating:
+                {{ floor(poi['rank']/5*100) }}% </h2>
+
+            <button class="center" ng-click="getPoiInfo($event)"
+                value="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
+
+
+
+            <!-- !-- post review form -->
+            <button ng-show="logged_in" type="button" class="btn btn-info btn-lg center"
+                ng-click="openRevieq=!openRevieq" ng-init="openRevieq=false"> post a review</button>
+            <div ng-show="openRevieq" class="container" style="background-color: rgb(180, 248, 231)">
+                <div class="row">
+                    <h2>Feedback</h2>
+                    <table width="100%">
+                        <div class="col-md-9 col-md-offset-0">
+                            <tr>
+                                <td width="77%">
+                                    <div class="">
+                                        <form class="form-horizontal" action="send.php" method="post">
+                                            <fieldset>
+
+
+                                                <!-- Message body -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        message</label>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="message" ng-model="message"
+                                                            placeholder="Please enter your feedback here..."
+                                                            rows="5"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Rating -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        rating</label>
+                                                    <div class="col-md-9">
+                                                        <input style="width:100px" id="input-21e" ng-model="newRank"
+                                                            value="0" type="number" class="rating" min=0 max=5 step=1>
+                                                    </div>
+                                                </div>
+                                </td>
+                                <td valign="top" width="23%">
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center">
+                                            <img ng-src="/resources/ranker.jpeg" height="140px" width="270px" /><br />
+                                            <button type="submit" class="btn btn-primary btn-md"
+                                                ng-click="submitRating(message,newRank,poi['POIName']); openRevieq=!openRevieq">Submit</button>
+                                            <button type="reset" class="btn btn-default btn-md"
+                                                ng-click="message=clear(); newRank=0">
+                                                Clear</button>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                    </form>
+                        </div>
+
+                        </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+
+
+</div>
+
+
+<!-- display pois in category Attractions -->
+
+<div ng-show="showCatAttractions" style="background-color: rgb(208, 233, 201); opacity: 0.9;  " class="center">
+    <br>
+    <h1 style="text-align: center">"Attraction"</h1>
+    <br>
+    <div ng-repeat="poi in AttractionsPois">
+        <div class="container center" id="{{ poi['POIName'] }}"
+            style=" background-color: rgb(28, 194, 42); border-radius: 10%; opacity: 0.9;">
+
+
+
+            <div ng-init="x=test(poi['POIName'])"></div>
+
+            <!-- favorite_btn -->
+            <div ng-click="x = !x" class="center">
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
+                    class="fa fa-star checked center" style="width:fit-content;"></button>
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
+                    style="width:fit-content;"></button>
+            </div>
+            <!-- add to favorites -->
+            <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
+            <!-- img -->
+            <img class="center" ng-src="{{poi['imgUrl']}}" alt="{{poi['POIName']}} " ng-click="getPoiInfo($event)"
+                name="{{poi['POIName'] }}">
+            <!-- side buttons -->
+            <h2 bold class="center" style="-webkit-text-fill-color: rgb(0, 0, 0); font-size: 20px">rating:
+                {{ floor(poi['rank']/5*100) }}% </h2>
+
+            <button class="center" ng-click="getPoiInfo($event)"
+                value="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
+
+
+
+            <!-- !-- post review form -->
+            <button ng-show="logged_in" type="button" class="btn btn-info btn-lg center"
+                ng-click="openRevieq=!openRevieq" ng-init="openRevieq=false"> post a review</button>
+            <div ng-show="openRevieq" class="container" style="background-color: rgb(180, 248, 231)">
+                <div class="row">
+                    <h2>Feedback</h2>
+                    <table width="100%">
+                        <div class="col-md-9 col-md-offset-0">
+                            <tr>
+                                <td width="77%">
+                                    <div class="">
+                                        <form class="form-horizontal" action="send.php" method="post">
+                                            <fieldset>
+
+
+                                                <!-- Message body -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        message</label>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="message" ng-model="message"
+                                                            placeholder="Please enter your feedback here..."
+                                                            rows="5"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Rating -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        rating</label>
+                                                    <div class="col-md-9">
+                                                        <input style="width:100px" id="input-21e" ng-model="newRank"
+                                                            value="0" type="number" class="rating" min=0 max=5 step=1>
+                                                    </div>
+                                                </div>
+                                </td>
+                                <td valign="top" width="23%">
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center">
+                                            <img ng-src="/resources/ranker.jpeg" height="140px" width="270px" /><br />
+                                            <button type="submit" class="btn btn-primary btn-md"
+                                                ng-click="submitRating(message,newRank,poi['POIName']); openRevieq=!openRevieq">Submit</button>
+                                            <button type="reset" class="btn btn-default btn-md"
+                                                ng-click="message=clear(); newRank=0">
+                                                Clear</button>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                    </form>
+                        </div>
+
+                        </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+
+
+</div>
+
+
+<!-- display pois in category Food -->
+<div ng-show="showCatFood" style="background-color: rgb(233, 201, 228); opacity: 0.9;  " class="center">
+    <br>
+    <h1 style="text-align: center">"Food"</h1>
+    <br>
+    <div ng-repeat="poi in FoodPois">
+        <div class="container center" id="{{ poi['POIName'] }}"
+            style=" background-color: rgb(214, 127, 193); border-radius: 10%; opacity: 0.9;">
+
+
+
+            <div ng-init="x=test(poi['POIName'])"></div>
+
+            <!-- favorite_btn -->
+            <div ng-click="x = !x" class="center">
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && x"
+                    class="fa fa-star checked center" style="width:fit-content;"></button>
+                <button value="{{poi}}" ng-click="addToFav($event)" ng-show="logged_in && !x" class="fa fa-star center"
+                    style="width:fit-content;"></button>
+            </div>
+            <!-- add to favorites -->
+            <!-- <input ng-show="logged_in" value="{{poi}}" class="favorite_btn" type="image" src="/resources/fav.png" style="   position:absolute;" ng-click="addToFav($event)" /> -->
+            <!-- img -->
+            <img class="center" ng-src="{{poi['imgUrl']}}" alt="{{poi['POIName']}} " ng-click="getPoiInfo($event)"
+                name="{{poi['POIName'] }}">
+            <!-- side buttons -->
+            <h2 bold class="center" style="-webkit-text-fill-color: rgb(0, 0, 0); font-size: 20px">rating:
+                {{ floor(poi['rank']/5*100) }}% </h2>
+
+            <button class="center" ng-click="getPoiInfo($event)"
+                value="{{poi['POIName'] }}">{{ poi['POIName'] }}</button>
+
+
+
+            <!-- !-- post review form -->
+            <button ng-show="logged_in" type="button" class="btn btn-info btn-lg center"
+                ng-click="openRevieq=!openRevieq" ng-init="openRevieq=false"> post a review</button>
+            <div ng-show="openRevieq" class="container" style="background-color: rgb(180, 248, 231)">
+                <div class="row">
+                    <h2>Feedback</h2>
+                    <table width="100%">
+                        <div class="col-md-9 col-md-offset-0">
+                            <tr>
+                                <td width="77%">
+                                    <div class="">
+                                        <form class="form-horizontal" action="send.php" method="post">
+                                            <fieldset>
+
+
+                                                <!-- Message body -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        message</label>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="message" ng-model="message"
+                                                            placeholder="Please enter your feedback here..."
+                                                            rows="5"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Rating -->
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="message">Your
+                                                        rating</label>
+                                                    <div class="col-md-9">
+                                                        <input style="width:100px" id="input-21e" ng-model="newRank"
+                                                            value="0" type="number" class="rating" min=0 max=5 step=1>
+                                                    </div>
+                                                </div>
+                                </td>
+                                <td valign="top" width="23%">
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center">
+                                            <img ng-src="/resources/ranker.jpeg" height="140px" width="270px" /><br />
+                                            <button type="submit" class="btn btn-primary btn-md"
+                                                ng-click="submitRating(message,newRank,poi['POIName']); openRevieq=!openRevieq">Submit</button>
+                                            <button type="reset" class="btn btn-default btn-md"
+                                                ng-click="message=clear(); newRank=0">
+                                                Clear</button>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                    </form>
+                        </div>
+
+                        </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+
+
 </div>
