@@ -53,7 +53,6 @@ app.controller("controller", function($scope, $http, $window,$route){
         if(!localStorage.getItem("favorites")){
             return false;
         }
-       
         var ans = false;
         // console.log("for me "+ JSON.parse(localStorage.getItem("favorites")))[0]
         JSON.parse(localStorage.getItem("favorites")).forEach(function(info){
@@ -64,6 +63,17 @@ app.controller("controller", function($scope, $http, $window,$route){
         return ans;
         
     }
+
+    // go to login
+    $scope.goTologin = function(){
+        $window.location.href = "#!/login"
+    }
+
+    // go to register
+    $scope.goToRes = function(){
+        $window.location.href = "#!/register"
+    }
+
     $scope.getfavAmount = function(){
         return JSON.parse(Storage.getItem("favorites")).length
     }
@@ -136,6 +146,11 @@ app.controller("controller", function($scope, $http, $window,$route){
                 localStorage.setItem("favorites", JSON.stringify(favorites) );
         }
                 $scope.favAmount = JSON.parse(localStorage.getItem("favorites")).length
+                if(location.href.endsWith("/")){
+                    location.reload();
+
+                }
+               
                 // $route.reload();
             
         }
@@ -262,6 +277,7 @@ app.controller("controller", function($scope, $http, $window,$route){
           );
     }
     else{
+         $scope.userName = "guest"
         $scope.logged_in = false;
     }
 
