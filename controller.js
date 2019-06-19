@@ -46,7 +46,7 @@ app.config(['$routeProvider', function ($routeProvider){
 }]);
 
 app.controller("controller", function($scope, $http, $window,$route){
-    // localStorage.clear();
+   
 
     //is in fav
     $scope.test = function(poi){
