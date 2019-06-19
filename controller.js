@@ -210,7 +210,10 @@ app.controller("controller", function($scope, $http, $window,$route){
       ////////////////////
 
 
-    
+      $scope.floor = function(number){
+        return Math.floor(number*10000)
+
+    }
     
 
 
@@ -221,7 +224,7 @@ app.controller("controller", function($scope, $http, $window,$route){
     //get randompois
         $http({
         method: "GET",
-        url:"http://localhost:3000/poi/getrandomPOI/0"
+        url:"http://localhost:3000/poi/getrandomPOI/2"
     }).then(
         function (response){
             $scope.random_pois = response.data;
